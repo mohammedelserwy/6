@@ -1,69 +1,151 @@
-import React, {Component} from 'react';
-import {
-  I18nManager,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  View,
-} from 'react-native';
-import {CommonActions, NavigationContainer} from '@react-navigation/native';
-import {Provider} from 'react-redux';
-import RouterNavigator from './RouterNavigator';
-import {navigationRef, isReadyRef, reset} from './NavigationActions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {changeLng} from './Config';
-import {Spinner, VectorIcon} from './components/assets/UIComponents';
-import Store from './store';
-
-function AppContainer(props) {
-  return (
-    <Provider store={Store}>
-        <NavigationContainer
-          ref={navigationRef}
-          onReady={() => {
-            isReadyRef.current = true;
-          }}>
-          <KeyboardAvoidingView
-            style={{flex: 1}}
-            behavior={Platform.OS === 'ios' ? 'padding' : null}>
-            <RouterNavigator  />
-          </KeyboardAvoidingView>
-        </NavigationContainer>
-    </Provider>
-  );
-}
+import React, { Component } from 'react';
+import { Image, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { firstPageStyles } from './components/assets/styles/Styles';
 class App extends Component {
-  state = {lng: false, lang: '', loading: false};
-  async componentDidMount() {
-    let lang = await AsyncStorage.getItem('language');
-    if (lang) {
-      this.setState({lng: true, lang: lang});
-      changeLng(lang);
-    } else {
-      this.setState({lng: true});
-    }
-    Store.subscribe(() => {
-      const storeState = Store.getState();
-      if (storeState.mainR.loading) {
-        this.setState({loading: true});
-      } else {
-        this.setState({loading: false});
-      }
-    });
-  }
   render() {
-    const {lng, lang, loading} = this.state;
-    if (lng) {
-      return (
-        <View style={{flex: 1}}>
-          <AppContainer lang={lang} />
-          {loading ? <Spinner /> : null}
+    return (
+      <View style={firstPageStyles.pageView}>
+        <View style={firstPageStyles.itemView}>
+          <Image source={require('./components/assets/images/line.png')} />
+          <Text style={firstPageStyles.seventhText}>الرئيسية </Text>
         </View>
-      );
-    } else {
-      return <View />;
-    }
+
+        <View style={firstPageStyles.personView}>
+          <View style={firstPageStyles.personContainer}>
+            <Image
+              style={firstPageStyles.firstImage}
+              source={require('./components/assets/images/person.jpg')}
+            />
+            <View style={firstPageStyles.containerView}>
+              <Text style={firstPageStyles.firstContainerText}>مرحبا بك</Text>
+              <Text style={firstPageStyles.secondContainerText}>
+                محمد العلي
+              </Text>
+            </View>
+          </View>
+          <View>
+            <View style={firstPageStyles.circleStyle}></View>
+            <Image source={require('./components/assets/images/circle.png')} />
+          </View>
+        </View>
+
+        <View style={firstPageStyles.coloredContainer}>
+          <View style={firstPageStyles.firstColoredContainer}>
+            <Text style={firstPageStyles.firstColoredText}>إجمالي المهمات</Text>
+            <Text style={firstPageStyles.secondColoredText}> 21</Text>
+          </View>
+          <View style={firstPageStyles.secondColoredContainer}>
+            <Text style={firstPageStyles.firstColoredText}>مهمات منتهية </Text>
+            <Text style={firstPageStyles.secondColoredText}> 4</Text>
+          </View>
+          <View style={firstPageStyles.thirdColoredContainer}>
+            <Text style={firstPageStyles.thirdColoredText}> مهمات جديدة </Text>
+            <Text style={firstPageStyles.fourthColoredText}> 11</Text>
+          </View>
+        </View>
+
+        <View style={firstPageStyles.coloredContainerTwo}>
+          <Text style={firstPageStyles.coloredContainerTwoFirstText}>
+            أحدث الطلبات
+          </Text>
+          <Text style={firstPageStyles.coloredContainerTwoSecondText}>
+            ___02
+          </Text>
+        </View>
+        <View style={firstPageStyles.requestContainer}>
+          <View></View>
+          <View style={firstPageStyles.requestContainerOne}>
+            <Text style={firstPageStyles.requestContainerFirstText}>
+              عنوان الطلب
+            </Text>
+            <Text style={firstPageStyles.requestContainerSecondText}>
+              هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما
+              سيلهي القارئ عن التركيز على الشكل الخارجي للنص
+            </Text>
+          </View>
+
+          <View style={firstPageStyles.innerRequestContainer}>
+            <View style={firstPageStyles.innerRequestContainerOne}>
+              <Text style={firstPageStyles.innerRequestContainerFirstText}>
+                مسئول الطلب
+              </Text>
+              <Text style={firstPageStyles.innerRequestContainerSecondText}>
+                عادل سعيد
+              </Text>
+            </View>
+            <View style={firstPageStyles.innerRequestContainerTwo}>
+              <View style={firstPageStyles.innerRequestContainerThirdView}>
+                <Text style={firstPageStyles.innerRequestContainerThirdText}>
+                  تاريخ الرد
+                </Text>
+              </View>
+
+              <View style={firstPageStyles.innerRequestContainerFourthView}>
+                <Text style={firstPageStyles.innerRequestContainerFourthText}>
+                  Dec 18, 2019
+                </Text>
+              </View>
+            </View>
+            <View style={firstPageStyles.innerRequestContainerOne}>
+              <Text style={firstPageStyles.innerRequestContainerFithText}>
+                حالة الطلب
+              </Text>
+              <Text style={firstPageStyles.innerRequestContainerSixthText}>
+                مرفوض
+              </Text>
+            </View>
+          </View>
+        </View>
+        <Text style={firstPageStyles.redText}>المسئول المباشر </Text>
+
+        <View style={firstPageStyles.personView}>
+          <View style={firstPageStyles.personContainer}>
+            <Image
+              style={firstPageStyles.firstImage}
+              source={require('./components/assets/images/personTwo.png')}
+            />
+            <View style={firstPageStyles.containerView}>
+              <Text style={firstPageStyles.personFirstText}>رضا المرزوقي</Text>
+              <Text style={firstPageStyles.personSecondText}>
+                مدير الجهة الإعلامية
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={firstPageStyles.personView}>
+          <View style={firstPageStyles.iconContainer}>
+            <Image
+              source={require('./components/assets/images/phoneTwo.png')}
+            />
+          </View>
+          <View style={firstPageStyles.iconContainer}>
+            <Image source={require('./components/assets/images/window.png')} />
+          </View>
+          <View style={firstPageStyles.iconTwoContainer}></View>
+        </View>
+
+        <View style={firstPageStyles.bottomView}>
+          <View style={firstPageStyles.innerBottomView}>
+            <View>
+              <Image source={require('./components/assets/images/home.png')} />
+              <Text style={firstPageStyles.firstBottomText}>الرئيسية </Text>
+            </View>
+            <View>
+              <Image source={require('./components/assets/images/order.png')} />
+              <Text style={firstPageStyles.secondBottomText}>الطلبات </Text>
+            </View>
+            <View>
+              <Image source={require('./components/assets/images/note.png')} />
+              <Text style={firstPageStyles.secondBottomText} >الإشعارات </Text>
+            </View>
+            <View>
+              <Image source={require('./components/assets/images/settings.png')} />
+              <Text style={firstPageStyles.secondBottomText}>الإعدادات </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
   }
 }
-
 export default App;
